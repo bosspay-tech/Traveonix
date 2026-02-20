@@ -20,7 +20,6 @@ export default function History() {
             <div className="text-lg font-extrabold text-slate-900">
               Payment History
             </div>
-            <div className="text-sm text-slate-500">Saved locally for demo</div>
           </div>
 
           <select
@@ -38,7 +37,7 @@ export default function History() {
       {/* Empty state */}
       {list.length === 0 ? (
         <div className="rounded-[28px] border border-slate-200 bg-white p-6 text-sm text-slate-500 shadow-sm">
-          No transactions yet. Do a demo payment.
+          No transactions yet. Purchase your first ticket.
         </div>
       ) : (
         <div className="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-sm">

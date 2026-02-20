@@ -126,7 +126,6 @@ export default function Pay() {
 
     setLoading(true);
     try {
-      // ✅ Save txn immediately (demo success)
       const txn = {
         id: `TXN_${Date.now()}_${Math.random().toString(16).slice(2, 8)}`,
         kind: "bus_ticket",
@@ -321,7 +320,7 @@ export default function Pay() {
                   inputMode="numeric"
                 />
                 <div className="mt-1 text-[11px] text-slate-400">
-                  Used for ticket confirmation (demo).
+                  Used for ticket confirmation.
                 </div>
               </div>
 

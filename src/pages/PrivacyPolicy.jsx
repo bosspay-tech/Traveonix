@@ -47,10 +47,9 @@ export default function PrivacyPolicy() {
             <ul className="mt-2 list-disc space-y-2 pl-5">
               <li>
                 <span className="font-semibold text-slate-900">
-                  Account details (demo login):
+                  Account details :
                 </span>{" "}
-                name, mobile number, and a password (stored locally for demo, if
-                enabled).
+                name, mobile number, and a password.
               </li>
               <li>
                 <span className="font-semibold text-slate-900">
@@ -85,9 +84,6 @@ export default function PrivacyPolicy() {
               <li>
                 We do not ask for or store full card numbers, CVV, netbanking
                 passwords, or UPI PINs.
-              </li>
-              <li>
-                Please avoid entering sensitive information in any demo fields.
               </li>
             </ul>
           </section>
@@ -134,7 +130,7 @@ export default function PrivacyPolicy() {
             </h2>
             <p className="mt-2">
               We may use cookies and/or local storage to keep you signed in,
-              remember preferences, and store demo booking history (like recent
+              remember preferences, and store booking history (like recent
               tickets). You can clear your browser storage to remove this data.
             </p>
           </section>
@@ -145,8 +141,8 @@ export default function PrivacyPolicy() {
             </h2>
             <p className="mt-2">
               We retain information only as long as necessary for the purposes
-              described above. In the demo version, booking history may be
-              stored locally in your browser until you clear it.
+              described above. In the version, booking history may be stored
+              locally in your browser until you clear it.
             </p>
           </section>
 
@@ -158,7 +154,7 @@ export default function PrivacyPolicy() {
               We take reasonable measures to protect information. However, no
               method of transmission or storage is 100% secure. Please use the
               Service responsibly and avoid entering sensitive credentials in
-              demo fields.
+              fields.
             </p>
           </section>
 
