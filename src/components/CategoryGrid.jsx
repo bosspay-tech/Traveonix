@@ -4,7 +4,7 @@ import { CATEGORIES } from "../data/mock";
 
 export default function CategoryGrid() {
   return (
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {CATEGORIES.map((c) => (
         <Link
           key={c.id}
