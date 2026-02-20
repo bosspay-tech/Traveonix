@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../state/AuthContext";
+import { Bus } from "lucide-react";
 
 export default function Signin() {
   const { signin } = useAuth();
@@ -16,7 +17,7 @@ export default function Signin() {
           {/* Header */}
           <div className="flex items-center gap-3">
             <div className="grid h-11 w-11 place-items-center rounded-2xl bg-linear-to-br from-indigo-500 to-emerald-400 text-white">
-              <span className="text-xl font-black">₹</span>
+              <span className="text-xl font-black"><Bus /></span>
             </div>
             <div>
               <div className="text-lg font-extrabold text-slate-900">
