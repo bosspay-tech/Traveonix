@@ -10,6 +10,7 @@ export default function History() {
     if (filter === "all") return txns;
     return txns.filter((t) => t.status === filter);
   }, [txns, filter]);
+  console.log(list)
 
   return (
     <div className="space-y-4">
@@ -52,7 +53,7 @@ export default function History() {
                     </div>
                     <div className="mt-1 text-xs text-slate-500">
                       Ref: {t.customerRef} • {String(t.method).toUpperCase()} •{" "}
-                      {new Date(t.createdAt).toLocaleString("en-IN")}
+                      {new Date(t.processedAt).toLocaleString("en-IN")}
                     </div>
                     <div className="mt-1 font-mono text-xs text-slate-400">
                       {t.id}

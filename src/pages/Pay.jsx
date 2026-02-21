@@ -8,6 +8,7 @@ import {
 import { CATEGORIES, PROVIDERS, ROUTES, PAYMENT_METHODS } from "../data/mock";
 import { formatINR } from "../utils/money";
 import { addTxn } from "../utils/storage";
+import SeatSelector from "../components/SeatSelector"; 
 
 const fmtDuration = (mins) => {
   const m = Number(mins || 0);
@@ -27,7 +28,11 @@ const nextDayISO = () => {
 export default function Pay() {
   const { category } = useParams();
   const [sp] = useSearchParams();
+
   const routeId = sp.get("routeId") || "";
+  const dateParam = sp.get("date") || "";
+  const seatsParam = Number(sp.get("seats") || 1);
+
   const nav = useNavigate();
 
   const cat = useMemo(
@@ -52,10 +57,14 @@ export default function Pay() {
     return operatorById.get(route.operatorId) || null;
   }, [route?.operatorId, operatorById]);
 
-  const [travelDate, setTravelDate] = useState(nextDayISO());
+  const [travelDate, setTravelDate] = useState(dateParam || nextDayISO());
   const [passengerName, setPassengerName] = useState("");
   const [phone, setPhone] = useState("");
-  const [seats, setSeats] = useState(1);
+
+  // ✅ seat selector state
+  const [desiredSeats, setDesiredSeats] = useState(seatsParam || 1);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+
   const [method, setMethod] = useState("upi");
   const [loading, setLoading] = useState(false);
   const [err, setErr] = useState("");
@@ -66,15 +75,18 @@ export default function Pay() {
     setReceipt(null);
     setPassengerName("");
     setPhone("");
-    setSeats(1);
     setMethod("upi");
-    setTravelDate(nextDayISO());
-  }, [category, routeId]);
+
+    setDesiredSeats(seatsParam || 1);
+    setSelectedSeats([]);
+
+    setTravelDate(dateParam || nextDayISO());
+  }, [category, routeId, seatsParam, dateParam]);
 
   const total = useMemo(() => {
     const fare = Number(route?.fare || 0);
-    return fare * Number(seats || 0);
-  }, [route?.fare, seats]);
+    return fare * Number(selectedSeats.length || 0);
+  }, [route?.fare, selectedSeats.length]);
 
   const canPay = useMemo(() => {
     if (!cat) return false;
@@ -82,9 +94,18 @@ export default function Pay() {
     if (!passengerName.trim()) return false;
     if (!/^[6-9]\d{9}$/.test((phone || "").trim())) return false;
     if (!travelDate) return false;
-    if (!seats || seats < 1 || seats > 6) return false;
+    if (!desiredSeats || desiredSeats < 1 || desiredSeats > 6) return false;
+    if ((selectedSeats || []).length !== desiredSeats) return false;
     return true;
-  }, [cat, route, passengerName, phone, travelDate, seats]);
+  }, [
+    cat,
+    route,
+    passengerName,
+    phone,
+    travelDate,
+    desiredSeats,
+    selectedSeats,
+  ]);
 
   if (!cat) {
     return (
@@ -120,9 +141,7 @@ export default function Pay() {
 
   async function handlePay() {
     setErr("");
-    if (!canPay) {
-      return setErr("Please fill all details correctly.");
-    }
+    if (!canPay) return setErr("Please fill all details correctly.");
 
     setLoading(true);
     try {
@@ -143,7 +162,9 @@ export default function Pay() {
         busType: route.busType,
         durationMins: route.durationMins,
         farePerSeat: Number(route.fare || 0),
-        seats: Number(seats),
+
+        seats: Number(selectedSeats.length),
+        seatNumbers: selectedSeats, // ✅ store selected seat ids
 
         operatorId: route.operatorId,
         operatorName: operator?.name || "Operator",
@@ -154,7 +175,7 @@ export default function Pay() {
         phone: phone.trim(),
         method,
         title: `${route.from} → ${route.to}`,
-        subtitle: `${route.busType} • ${Number(seats)} seat(s) • ${formatINR(total)}`,
+        subtitle: `${route.busType} • ${selectedSeats.length} seat(s) • ${formatINR(total)}`,
       };
 
       addTxn(txn);
@@ -235,6 +256,15 @@ export default function Pay() {
                 <span className="font-semibold text-slate-900">
                   {receipt.seats}
                 </span>
+                {receipt.seatNumbers?.length ? (
+                  <>
+                    {" "}
+                    <span className="text-slate-400">•</span>{" "}
+                    <span className="font-semibold text-slate-900">
+                      {receipt.seatNumbers.join(", ")}
+                    </span>
+                  </>
+                ) : null}
                 <br />
                 Passenger:{" "}
                 <span className="font-semibold text-slate-900">
@@ -324,26 +354,13 @@ export default function Pay() {
                 </div>
               </div>
 
-              <div>
-                <label className="text-xs text-slate-500">Seats</label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {[1, 2, 3, 4, 5, 6].map((n) => (
-                    <button
-                      key={n}
-                      type="button"
-                      onClick={() => setSeats(n)}
-                      className={[
-                        "rounded-2xl border px-4 py-2 text-sm",
-                        n === seats
-                          ? "border-indigo-400 bg-indigo-50 text-indigo-700"
-                          : "border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100",
-                      ].join(" ")}
-                    >
-                      {n}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {/* ✅ Seat selector */}
+              <SeatSelector
+                seedKey={`${routeId}_${travelDate}`}
+                desiredSeats={desiredSeats}
+                value={selectedSeats}
+                onChange={setSelectedSeats}
+              />
 
               {err && (
                 <div className="rounded-2xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -377,6 +394,12 @@ export default function Pay() {
                         </span>
                       ) : null}
                     </div>
+                    <div className="mt-2 text-xs text-slate-500">
+                      Selected seats:{" "}
+                      <span className="font-semibold text-slate-900">
+                        {selectedSeats.length ? selectedSeats.join(", ") : "—"}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="text-right">
@@ -389,7 +412,9 @@ export default function Pay() {
 
                 <div className="mt-3 flex items-center justify-between text-xs text-slate-500">
                   <span>Seats</span>
-                  <span className="font-semibold text-slate-700">{seats}</span>
+                  <span className="font-semibold text-slate-700">
+                    {selectedSeats.length}/{desiredSeats}
+                  </span>
                 </div>
                 <div className="mt-1 flex items-center justify-between text-xs text-slate-500">
                   <span>Total</span>
@@ -421,7 +446,7 @@ export default function Pay() {
                 className="w-full rounded-2xl bg-linear-to-r from-emerald-500 to-teal-600 px-4 py-3 text-sm font-bold text-white shadow-sm hover:opacity-95 disabled:opacity-60"
               >
                 {loading ? "Processing…" : `Pay ${formatINR(total)}`}
-              </button>              
+              </button>
             </div>
           </div>
         </div>

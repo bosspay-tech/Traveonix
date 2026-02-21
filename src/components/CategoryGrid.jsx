@@ -6,9 +6,8 @@ export default function CategoryGrid() {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
       {CATEGORIES.map((c) => (
-        <Link
-          key={c.id}
-          to={`/providers/${c.id}`}
+        <div
+          key={c.id}          
           className="group rounded-3xl border border-slate-200 bg-white p-4 shadow-sm transition hover:bg-slate-50"
         >
           <div className="flex items-start justify-between">
@@ -24,7 +23,7 @@ export default function CategoryGrid() {
           <div className="mt-3 text-sm font-bold text-slate-900">{c.label}</div>
 
           <div className="mt-1 text-xs text-slate-500">{c.hint}</div>
-        </Link>
+        </div>
       ))}
     </div>
   );

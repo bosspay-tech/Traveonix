@@ -1,46 +1,19 @@
 import React from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../state/AuthContext";
-import { Bus, LogOut, Home, History, ShieldCheck } from "lucide-react";
+import { Bus, LogOut, Mail, Phone, MapPin } from "lucide-react";
 
-const NavItem = ({ to, label, Icon }) => (
+const FooterLink = ({ to, children }) => (
   <NavLink
     to={to}
     className={({ isActive }) =>
       [
-        "group relative flex flex-col items-center justify-center gap-1",
-        "rounded-2xl px-5 py-2 text-[11px] font-semibold",
-        "transition active:scale-[0.98]",
-        "focus:outline-none focus:ring-2 focus:ring-red-200",
-        isActive
-          ? "bg-red-50 text-red-700 shadow-sm"
-          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900",
+        "text-sm font-semibold transition",
+        isActive ? "text-red-600" : "text-slate-600 hover:text-slate-900",
       ].join(" ")
     }
   >
-    {({ isActive }) => (
-      <>
-        <span
-          className={[
-            "grid h-9 w-9 place-items-center rounded-2xl transition",
-            isActive
-              ? "bg-white shadow-sm"
-              : "bg-transparent group-hover:bg-white",
-          ].join(" ")}
-        >
-          <Icon className="h-4.5 w-4.5" />
-        </span>
-        <span className="leading-none">{label}</span>
-
-        {/* active indicator */}
-        <span
-          className={[
-            "absolute -top-1 h-1 w-8 rounded-full transition",
-            isActive ? "bg-red-500" : "bg-transparent",
-          ].join(" ")}
-        />
-      </>
-    )}
+    {children}
   </NavLink>
 );
 
@@ -49,7 +22,7 @@ export default function AppShell() {
   const nav = useNavigate();
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900">
+    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col">
       {/* top bar */}
       <div className="sticky top-0 z-30 border-b border-slate-200 bg-white/85 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-4 py-4">
@@ -111,20 +84,132 @@ export default function AppShell() {
       </div>
 
       {/* content */}
-      <div className="mx-auto w-full max-w-6xl px-4 py-6 pb-28">
-        <Outlet />
-      </div>
 
-      {/* bottom nav */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-slate-200 bg-white/90 backdrop-blur">
-        <div className="mx-auto w-full max-w-6xl px-4 py-3">
-          <div className="grid grid-cols-3 gap-2 rounded-3xl bg-white p-2 shadow-[0_-8px_30px_rgba(15,23,42,0.08)]">
-            <NavItem to="/" label="Home" Icon={Home} />
-            <NavItem to="/history" label="History" Icon={History} />
-            <NavItem to="/privacy" label="Privacy" Icon={ShieldCheck} />
+      <Outlet />
+
+      {/* footer */}
+      <footer className="border-t border-slate-200 bg-white">
+        <div className="mx-auto w-full max-w-6xl px-4 py-10">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
+            {/* Brand */}
+            <div className="md:col-span-5">
+              <div className="flex items-center gap-3">
+                <div className="grid h-12 w-12 place-items-center rounded-3xl bg-red-50 shadow-sm">
+                  <Bus className="h-6 w-6 text-red-600" />
+                </div>
+                <div className="leading-tight">
+                  <div className="text-[10px] font-bold tracking-widest text-slate-400">
+                    BUS TICKETING
+                  </div>
+                  <div className="text-xl font-black text-red-600">
+                    TRAVEONIX
+                  </div>
+                </div>
+              </div>
+
+              <p className="mt-4 text-sm leading-6 text-slate-600 max-w-md">
+                Book intercity bus tickets with a clean, fast experience.
+                Compare operators, choose seats, and checkout securely (demo
+                flow).
+              </p>
+
+              <div className="mt-4 flex flex-wrap gap-2">
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  AC Sleeper
+                </span>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  RTC Buses
+                </span>
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                  Instant Booking
+                </span>
+              </div>
+            </div>
+
+            {/* Links */}
+            <div className="md:col-span-3">
+              <div className="text-sm font-extrabold text-slate-900">
+                Quick links
+              </div>
+              <div className="mt-3 flex flex-col gap-2">
+                <FooterLink to="/">Home</FooterLink>
+                <FooterLink to="/history">History</FooterLink>
+                <FooterLink to="/privacy">Privacy Policy</FooterLink>
+                <FooterLink to="/contact">Contact</FooterLink>
+              </div>
+            </div>
+
+            {/* Support */}
+            <div className="md:col-span-4">
+              <div className="text-sm font-extrabold text-slate-900">
+                Support
+              </div>
+
+              <div className="mt-3 space-y-2 text-sm text-slate-600">
+                <div className="flex items-center gap-2">
+                  <Mail className="h-4 w-4 text-slate-400" />
+                  <span>support@traveonix.com</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Phone className="h-4 w-4 text-slate-400" />
+                  <span>+91 90000 00000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <MapPin className="h-4 w-4 text-slate-400" />
+                  <span>India</span>
+                </div>
+              </div>
+
+              <div className="mt-4 flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => nav("/privacy")}
+                  className="rounded-2xl border border-slate-300 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100"
+                >
+                  Read Policy
+                </button>
+                <button
+                  type="button"
+                  onClick={() => nav("/")}
+                  className="rounded-2xl bg-red-600 px-4 py-2 text-sm font-semibold text-white hover:opacity-95"
+                >
+                  Book Tickets
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* bottom strip */}
+          <div className="mt-10 flex flex-col gap-2 border-t border-slate-200 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              © {new Date().getFullYear()} TRAVEONIX. All rights reserved.
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <FooterLink
+                type="button"
+                to="/privacy"
+                className="hover:text-slate-700"
+              >
+                Privacy
+              </FooterLink>
+              <FooterLink
+                type="button"
+                to="/terms"
+                className="hover:text-slate-700"
+              >
+                Terms
+              </FooterLink>
+              <FooterLink
+                type="button"
+                to="/refunds"
+                className="hover:text-slate-700"
+              >
+                Refunds
+              </FooterLink>
+            </div>
           </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }
