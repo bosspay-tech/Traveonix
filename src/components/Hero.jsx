@@ -7,7 +7,7 @@ const Hero = () => {
     animate: { x: "3%", transition: { duration: 3, ease: "easeInOut" } },
   };
   return (
-    <div className="h-[calc(100vh-8ch)] w-full lg:ps-28 md:ps-16 sm:ps-7 ps-4 flex items-center justify-center relative hero">
+    <div className="h-[calc(100vh-8ch)] w-full lg:ps-28 md:ps-16 sm:ps-7 ps-4 flex items-center justify-center relative hero overflow-hidden">
       <div className="flex-1 w-full flex items-stretch justify-between gap-12 pb-10">
         <motion.div
           className="w-[35%] h-auto rounded-md flex justify-center flex-col space-y-14"

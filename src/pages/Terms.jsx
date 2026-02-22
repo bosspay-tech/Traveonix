@@ -42,8 +42,7 @@ export default function Terms() {
               1) Service Description
             </h2>
             <p className="mt-2">
-              TRAVEONIX helps users search routes and book bus tickets. In demo
-              mode, bookings and history may be simulated.
+              TRAVEONIX helps users search routes and book bus tickets.
             </p>
           </section>
 

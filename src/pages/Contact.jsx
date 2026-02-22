@@ -20,7 +20,9 @@ export default function Contact() {
           </div>
 
           <div className="text-right">
-            <h1 className="text-2xl font-extrabold text-slate-900">Contact Us</h1>
+            <h1 className="text-2xl font-extrabold text-slate-900">
+              Contact Us
+            </h1>
             <p className="mt-1 text-sm text-slate-500">
               We usually respond within 24 hours.
             </p>
@@ -56,10 +58,10 @@ export default function Contact() {
               </div>
               <div className="mt-2 text-sm text-slate-700">
                 <a
-                  href="tel:+919000000000"
+                  href="tel:+919974126031"
                   className="font-semibold text-red-600 hover:underline"
                 >
-                  +91 90000 00000
+                  +91 9974126031
                 </a>
               </div>
               <div className="mt-1 text-xs text-slate-500">
@@ -73,10 +75,9 @@ export default function Contact() {
                 Address
               </div>
               <div className="mt-2 text-sm text-slate-700">
-                TRAVEONIX, India
-              </div>
-              <div className="mt-1 text-xs text-slate-500">
-                (This is a demo app — update with your official address.)
+                TRAVEONIX ADVISORS PRIVATE LIMITED<br/> S.F 3 TO 6, OM COMPLEX,
+                SWASTIK CROSS ROAD, C.G.RD, Navrangpura, Ahmadabad City,<br/>
+                Ahmedabad-380009, Gujarat
               </div>
             </div>
 
@@ -99,9 +100,6 @@ export default function Contact() {
             <div className="text-sm font-extrabold text-slate-900">
               Send a message
             </div>
-            <p className="mt-1 text-xs text-slate-500">
-              Demo form — wire it to your backend later.
-            </p>
 
             <div className="mt-4 space-y-3">
               <div>
@@ -132,7 +130,7 @@ export default function Contact() {
 
               <button
                 type="button"
-                onClick={() => alert("Demo: message sent!")}
+                onClick={() => alert("Message sent!")}
                 className="w-full rounded-2xl bg-linear-to-r from-red-500 to-rose-600 px-4 py-3 text-sm font-bold text-white shadow-sm hover:opacity-95"
               >
                 Send message

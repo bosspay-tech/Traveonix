@@ -109,8 +109,7 @@ export default function AppShell() {
 
               <p className="mt-4 text-sm leading-6 text-slate-600 max-w-md">
                 Book intercity bus tickets with a clean, fast experience.
-                Compare operators, choose seats, and checkout securely (demo
-                flow).
+                Compare operators, choose seats, and checkout securely.
               </p>
 
               <div className="mt-4 flex flex-wrap gap-2">
