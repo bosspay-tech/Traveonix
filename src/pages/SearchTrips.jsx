@@ -71,7 +71,7 @@ export default function SearchTrips() {
   return (
     <>
       <Hero />
-      <div className="mx-auto px-10 max-w-6xl mt-10 space-y-10">
+      <div id="booking" className="mx-auto px-10 max-w-6xl mt-10 space-y-10">
         <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
           <div className="text-xl font-black text-slate-900">
             Search Bus Tickets

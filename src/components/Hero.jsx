@@ -31,9 +31,12 @@ const Hero = () => {
               wide range of rotues and schedules to suit you needs.
             </motion.p>
           </motion.div>
-          <motion.button className="w-fit bg-violet-700 hover:bg-violet-800 text-neutral-50 font-medium py-3 px-6 rounded-md ease-in-out duration-300">
+          <motion.a
+            href="#booking"
+            className="w-fit bg-violet-700 hover:bg-violet-800 text-neutral-50 font-medium py-3 px-6 rounded-md ease-in-out duration-300 inline-block"
+          >
             Reserve Seat Now
-          </motion.button>
+          </motion.a>
         </motion.div>
         <div className="w-[70%] h-full rounded-md flex items-end justify-end absolute top-0 -right-48">
           <motion.img
