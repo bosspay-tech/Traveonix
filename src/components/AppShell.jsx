@@ -151,7 +151,7 @@ export default function AppShell() {
                 </div>
                 <div className="flex items-center gap-2">
                   <Phone className="h-4 w-4 text-slate-400" />
-                  <span>+91 90000 00000</span>
+                  <span>+91 9974126031</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <MapPin className="h-4 w-4 text-slate-400" />
