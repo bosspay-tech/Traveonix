@@ -1,3 +1,4 @@
+// OfferBanners.jsx (responsive + snap + nicer sizing + safe width classes)
 import React, { useState } from "react";
 import { OFFERS } from "../data/mock";
 import { Copy, Check } from "lucide-react";
@@ -12,12 +13,18 @@ export default function OfferBanners() {
       window.clearTimeout(copyCode._t);
       copyCode._t = window.setTimeout(() => setCopiedId(null), 1200);
     } catch {
-      // fallback: do nothing
+      // ignore
     }
   };
 
   return (
-    <div className="flex gap-5 overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+    <div
+      className="
+        flex gap-4 overflow-x-auto pb-4
+        snap-x snap-mandatory
+        [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden
+      "
+    >
       {OFFERS.map((o) => {
         const isCopied = copiedId === o.id;
 
@@ -25,9 +32,10 @@ export default function OfferBanners() {
           <div
             key={o.id}
             className={`
+              snap-start
               min-w-[92%] sm:min-w-130 md:min-w-155 lg:min-w-180
               rounded-4xl bg-linear-to-br ${o.tone}
-              p-7 sm:p-8 shadow-lg
+              p-6 sm:p-7 shadow-lg
             `}
           >
             {/* Top */}
@@ -47,7 +55,7 @@ export default function OfferBanners() {
             </div>
 
             {/* Code */}
-            <div className="mt-7 flex items-center justify-between rounded-2xl bg-white/85 px-4 py-3.5">
+            <div className="mt-6 flex items-center justify-between rounded-2xl bg-white/85 px-4 py-3">
               <div>
                 <div className="text-[11px] font-medium text-slate-600">
                   Use code
@@ -66,6 +74,7 @@ export default function OfferBanners() {
                   text-xs font-semibold text-slate-800
                   hover:bg-white/90 transition
                   focus:outline-none focus:ring-2 focus:ring-white/60
+                  active:scale-[0.98]
                 "
                 aria-label={`Copy code ${o.code}`}
               >

@@ -1,14 +1,13 @@
 @import "tailwindcss";
 
-.hero {
-  background:
-    linear-gradient(to right, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.05)),
-    url("./assets/bg1.jpg");
-  background-position: center bottom;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
 html {
   scroll-behavior: smooth;
+}
+
+.open-sans-font > {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100;
 }

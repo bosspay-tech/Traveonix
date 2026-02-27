@@ -186,7 +186,7 @@ export default function Pay() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 mx-10 my-8">
       {/* Header */}
       <div className="rounded-[28px] border border-slate-200 bg-white p-5 shadow-sm">
         <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

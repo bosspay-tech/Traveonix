@@ -1,21 +1,34 @@
+// SearchTrips.jsx (responsive + cleaner layout)
 import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { ROUTES } from "../data/mock";
+import { CATEGORIES, ROUTES } from "../data/mock";
 import { ArrowLeftRight, Search } from "lucide-react";
 import OfferBanners from "../components/OfferBanners";
+import CategoryGrid from "../components/CategoryGrid";
+import Hero from "../components/Hero";
+
 import Bus1 from "../assets/bus1.png";
 import Bus2 from "../assets/bus6.png";
 import Bus3 from "../assets/bus8.png";
 import Bus4 from "../assets/bus7.png";
 import Bus5 from "../assets/bus9.png";
 import Bus6 from "../assets/bus10.png";
-import CategoryGrid from "../components/CategoryGrid";
-import Hero from "../components/Hero";
+import PopularRoutes from "../components/PopularRoutes";
+import TrendingDestinations from "../components/TrendingDestinations";
 
 const uniqSorted = (arr) =>
   Array.from(new Set(arr.filter(Boolean))).sort((a, b) =>
     String(a).localeCompare(String(b)),
   );
+
+const BUS_IMAGES = [Bus1, Bus2, Bus3, Bus4, Bus5, Bus6];
+
+const SectionTitle = ({ title, subtitle }) => (
+  <div className="flex flex-col gap-1">
+    <h2 className="text-xl sm:text-2xl font-black text-slate-900">{title}</h2>
+    {subtitle ? <p className="text-sm text-slate-500">{subtitle}</p> : null}
+  </div>
+);
 
 export default function SearchTrips() {
   const nav = useNavigate();
@@ -33,7 +46,6 @@ export default function SearchTrips() {
   const [err, setErr] = useState("");
 
   useEffect(() => {
-    // prefill when coming back from results
     setFrom(sp.get("from") || "");
     setTo(sp.get("to") || "");
     setDate(sp.get("date") || "");
@@ -71,16 +83,23 @@ export default function SearchTrips() {
   return (
     <>
       <Hero />
-      <div id="booking" className="mx-auto px-10 max-w-6xl mt-10 space-y-10">
-        <div className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-          <div className="text-xl font-black text-slate-900">
-            Search Bus Tickets
-          </div>
-          <div className="mt-1 text-sm text-slate-500">
-            Select route, date and seats to see available buses
+
+      <div
+        id="booking"
+        className="mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8 py-10 space-y-10"
+      >
+        {/* Search Card */}
+        <div className="rounded-[28px] border border-slate-200 bg-white p-5 sm:p-6 shadow-sm">
+          <div className="flex flex-col gap-1">
+            <div className="text-lg sm:text-xl font-black text-slate-900">
+              Search Bus Tickets
+            </div>
+            <div className="text-sm text-slate-500">
+              Select route, date and seats to see available buses
+            </div>
           </div>
 
-          <form onSubmit={submit} className="mt-6 space-y-4">
+          <form onSubmit={submit} className="mt-5 space-y-4">
             {/* From/To */}
             <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_auto_1fr] md:items-end">
               <div>
@@ -97,7 +116,7 @@ export default function SearchTrips() {
               <button
                 type="button"
                 onClick={swap}
-                className="mx-auto mt-1 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-300 bg-slate-50 hover:bg-slate-100"
+                className="mx-auto mt-1 inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-slate-300 bg-slate-50 hover:bg-slate-100 transition"
                 aria-label="Swap From and To"
               >
                 <ArrowLeftRight className="h-5 w-5 text-slate-700" />
@@ -136,14 +155,14 @@ export default function SearchTrips() {
 
               <div>
                 <label className="text-xs text-slate-500">Seats</label>
-                <div className="mt-1 flex flex-wrap gap-2">
+                <div className="mt-1 grid grid-cols-6 gap-2">
                   {[1, 2, 3, 4, 5, 6].map((n) => (
                     <button
                       key={n}
                       type="button"
                       onClick={() => setSeats(n)}
                       className={[
-                        "rounded-2xl border px-4 py-3 text-sm font-semibold",
+                        "rounded-2xl border px-0 py-3 text-sm font-semibold transition",
                         n === seats
                           ? "border-red-400 bg-red-50 text-red-700"
                           : "border-slate-300 bg-slate-50 text-slate-700 hover:bg-slate-100",
@@ -164,76 +183,77 @@ export default function SearchTrips() {
 
             <button
               type="submit"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-red-500 to-rose-600 px-4 py-3 text-sm font-bold text-white shadow-sm hover:opacity-95"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-red-500 to-rose-600 px-4 py-3 text-sm font-bold text-white shadow-sm hover:opacity-95 transition"
             >
               <Search className="h-4 w-4" />
               Search buses
             </button>
           </form>
         </div>
-        <h1 className="text-3xl font-bold">Offers</h1>
-        <OfferBanners />
 
-        <h1 className="text-3xl font-bold">Our Buses</h1>
-        <div className="grid grid-cols-3 gap-6">
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus1}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
-          </div>
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus2}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
-          </div>
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus3}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
-          </div>
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus4}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
-          </div>
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus5}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
-          </div>
-          <div
-            className="bg-neutral-200/60 dark:bg-neutral-900/40 block rounded-xl px-4 py-5 relative group ease-in-out duration-200 overflow-hidden"
-          >
-            <img
-              src={Bus6}
-              alt=""
-              className="w-full aspect-video object-contain"
-            />
+        <PopularRoutes
+          onPick={(r) => {
+            setFrom(r.from);
+            setTo(r.to);
+            document
+              .getElementById("booking")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
+        <div className="space-y-4">
+          <SectionTitle
+            title="Offers"
+            subtitle="Save more with limited-time bus booking discounts."
+          />
+          <OfferBanners />
+        </div>
+
+        <TrendingDestinations
+          onPick={(d) => {
+            setTo(d.to);
+            setFrom(d.exampleFrom || "Delhi");
+            document
+              .getElementById("booking")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}
+        />
+
+        {/* Our Buses */}
+        <div className="space-y-4">
+          <SectionTitle
+            title="Our Buses"
+            subtitle="A glimpse of premium buses across categories."
+          />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {BUS_IMAGES.map((src, idx) => (
+              <div
+                key={idx}
+                className="
+                  group rounded-2xl border border-slate-200 bg-white p-4 shadow-sm
+                  hover:shadow-md transition
+                "
+              >
+                <div className="rounded-2xl bg-slate-50 p-3">
+                  <img
+                    src={src}
+                    alt={`bus-${idx + 1}`}
+                    className="w-full aspect-video object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 
-        <h1 className="text-2xl font-bold">Our Categories</h1>
-        <CategoryGrid />
+        {/* Categories */}
+        <div className="space-y-4">
+          <SectionTitle
+            title="Our Categories"
+            subtitle="Choose from multiple bus types and travel needs."
+          />
+          <CategoryGrid categories={CATEGORIES} />
+        </div>
       </div>
     </>
   );
